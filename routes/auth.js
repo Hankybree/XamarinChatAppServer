@@ -2,6 +2,11 @@ const express = require('express')
 const router = express.Router()
 const mySql = require('../database/mysql')
 const jwt = require('jsonwebtoken')
+const { authUser } = require('../middleware/middleware')
+
+router.get('/validate', authUser, (req, res) => {
+  return res.send({ status: 1, msg: 'Session valid!' })
+})
 
 router.post('/login', (req, res) => {
   mySql.query('SELECT * FROM users WHERE userName=?', [req.body.userName], (err, users) => {

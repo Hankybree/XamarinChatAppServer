@@ -8,9 +8,11 @@ const cors = require('cors')
 app.use(cors())
 app.use(express.json())
 
-app.listen(process.env.PORT, () => {
+const server = app.listen(process.env.PORT, () => {
   console.log('Listening on port: ' + process.env.PORT)
 })
+
+module.exports = server
 
 // Routes
 
