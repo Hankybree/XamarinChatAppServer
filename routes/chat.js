@@ -22,7 +22,18 @@ wss.on('connection', (socket, req) => {
 })
 
 router.get('/messages', authUser, (req, res) => {
+  mySql.query('SELECT * FROM messages', (err, messages) => {
+    if (err) throw err
+
+    return res.send({ status: 1, msg: 'Fetch successful', messages })
+  })
   res.send([{msg: 'hej ' + req.user.userName }, {msg: 'ditt id är ' + req.user.userId }])
 })
+
+// router.get('/timer', (req, res) => {
+//   const timerId = setTimeout(() => {
+//     console.log('')
+//   })
+// })
 
 module.exports = router
