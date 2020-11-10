@@ -27,8 +27,13 @@ wss.on('connection', (socket, req) => {
   clients.push(socket)
 
   socket.onmessage = (message) => {
-    console.log(message.data)
-    socket.send(message.data)
+    mySql.query('INSERT INTO messages (userName, content) VALUES (?,?)', [socket.user, message.data], (err) => {
+      if (err) throw err
+    })
+
+    clients.forEach(client => {
+      client.send(socket.user + '|' + message.data)
+    })
   }
 
   socket.onclose = () => {
